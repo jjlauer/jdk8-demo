@@ -1,21 +1,35 @@
 
 import java.util.*;
+import java.util.stream.*;
 
 /**
  Demonstrates Scala-like mkString in Java 8 using JDK8.
 */
-public class MakeString {
+public class MakeString2 {
 
   public static void main(String[] args) throws Exception {
     List<Person> persons = Arrays.asList(new Person("Joe", "Lauer"), new Person("John", "Doe"));
 
-    // single line closures can omit some syntax
-    String firstThenLast = ListUtils.mkString(persons, p -> p.getFirstName() + " " + p.getLastName(), "; ");
+    String firstThenLast = persons.stream()
+	.map(p -> p.getFirstName() + " " + p.getLastName())
+	.collect(Collectors.toStringJoiner("; "))
+        .toString();
     System.out.println("first then last: " + firstThenLast);
 
+    // map of persons by first name
+    Map<String,Person> personsByFirst = persons.stream()
+	.collect(Collectors.toMap(p -> p.getFirstName(), p -> p));
+
+    personsByFirst.forEach((k, v) -> System.out.println(k + ": " + v));
+
+
+    // single line closures can omit some syntax
+    //String firstThenLast = ListUtils.mkString(persons, p -> p.getFirstName() + " " + p.getLastName(), "; ");
+    //System.out.println("first then last: " + firstThenLast);
+
     // includes optional syntax
-    String lastThenFirst = ListUtils.mkString(persons, (p) -> { return p.getLastName() + ", " + p.getFirstName(); }, "; ");
-    System.out.println("last then first: " + lastThenFirst);
+    //String lastThenFirst = ListUtils.mkString(persons, (p) -> { return p.getLastName() + ", " + p.getFirstName(); }, "; ");
+    //System.out.println("last then first: " + lastThenFirst);
 
   }
 

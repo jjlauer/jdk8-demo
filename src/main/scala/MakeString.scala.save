@@ -1,0 +1,11 @@
+object MakeString {
+
+  class Person(f: String, l: String) {
+    var firstName: String = f
+    var lastName: String = l
+  }
+
+  def main(args: Array[String]) {
+    //println("Hello, world!")
+  }
+}
